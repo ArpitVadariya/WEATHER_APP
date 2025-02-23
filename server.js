@@ -16,15 +16,30 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+const NodeCache = require("node-cache");
+const weatherCache = new NodeCache({ stdTTL: 600 }); // Cache for 10 minutes
+
 app.get("/city/:city", async (req, res) => {
   const city = req.params.city;
-  try {
-    const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
-    );
-    res.json(response.data);
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+
+  if (weatherCache.get(city)) {
+    console.log(`Data fetching from cache for ${weatherCache.get(city).name}`);
+    return res.json(weatherCache.get(city));
+  } else {
+    try {
+      const response = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+      );
+      console.log(`Data fetching from API for ${city}`);
+
+      weatherCache.set(city, response.data);
+      // console.log(`Data of ${city} saved into weatherCache:`, weatherCache);
+      // console.log(weatherCache.get(city));
+
+      res.json(response.data);
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 });
 
