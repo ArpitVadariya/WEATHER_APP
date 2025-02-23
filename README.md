@@ -18,6 +18,6 @@ Welcome to the **Weather App**, a backend-powered application built with **Node.
 - **Cache Memory** – Store weather data temporarily to reduce API calls.
 
 ## 🚀 Getting Started
-1. **Clone the repository:**
+**Clone the repository:**
    ```bash
    git clone https://github.com/ArpitVadariya/WEATHER_APP.git
