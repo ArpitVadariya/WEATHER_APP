@@ -31,7 +31,7 @@ The project emphasizes backend concepts like **API integration** and **data cach
 
 ## 🌍 Live Demo
 You can try the live demo here:  
-[Weather App Live on Render](https://weather-app-yt9k.onrender.com)
+[Weather App Live on Render](https://weather-app-yt9k.onrender.com){:target="_blank"}
 
 ## 🛠️ Cloning the Repository
 To clone the repository, run the following command:
