@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Info</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="weather-info">
+      <!-- Dynamic content will be injected here -->
+      <h2 id="cityName">Loading...</h2>
+      <p class="temperature" id="temperature">--°C</p>
+      <p id="description">--</p>
+      <p id="humidity">--</p>
+      <p id="windspeed">--</p>
+      <img id="weatherIcon" src="" alt="Weather icon" />
+      <br /><br />
+      <a href="/">Go back to search</a>
+    </div>
+
+    <script>
+      // Get the city name from the URL
+      const city = window.location.pathname.split("/")[2];
+
+      // Fetch the weather data from the backend API
+      fetch(`/api/weather/${city}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.cod === 200) {
+            // Inject the weather data into the HTML
+            document.getElementById(
+              "cityName"
+            ).textContent = `Weather in ${data.name}`;
+            document.getElementById(
+              "temperature"
+            ).textContent = `${data.main.temp}°C`;
+            document.getElementById(
+              "description"
+            ).textContent = `Weather: ${data.weather[0].description}`;
+            document.getElementById(
+              "humidity"
+            ).textContent = `Humidity: ${data.main.humidity}%`;
+            document.getElementById(
+              "windspeed"
+            ).textContent = `Wind Speed: ${data.wind.speed} m/s`;
+            document.getElementById(
+              "weatherIcon"
+            ).src = `http://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
+          } else {
+            alert("City not found.");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("Error fetching weather data.");
+        });
+    </script>
+  </body>
+</html>
